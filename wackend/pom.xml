@@ -16,6 +16,12 @@
   </properties>
 
   <dependencies>
+    <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.3.3.RELEASE</version>
+</dependency>
+
   <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-webmvc</artifactId>
@@ -46,12 +52,13 @@
     <artifactId>spring-jdbc</artifactId>
     <version>4.3.3.RELEASE</version>
 </dependency>
-        
+
 <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.21</version>
-</dependency>      
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.0.13</version>
+    </dependency>
+     
         
         <!--Binding for commons logging over slf4j -->
 <dependency>
