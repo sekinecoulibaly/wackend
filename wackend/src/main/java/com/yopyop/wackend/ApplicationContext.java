@@ -30,7 +30,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = {
 		 "com.yopyop.wackend"
 		})
-@EnableJpaRepositories("com.yopyop.repositories")
+@EnableJpaRepositories("com.yopyop.wackend.repository")
 @EnableTransactionManagement
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
@@ -109,31 +109,4 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
 
 	        return entityManagerFactoryBean;
 	    }
-
-	    /**
-	     * Configures the exception resolver.
-	     * @return
-	     */
-	    @Bean
-	    public SimpleMappingExceptionResolver exceptionResolver() {
-	        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-
-	        Properties exceptionMappings = new Properties();
-
-	        exceptionMappings.put("com.packtpub.springdata.jpa.service.NotFoundException", "error/404");
-	        exceptionMappings.put("java.lang.Exception", "error/error");
-	        exceptionMappings.put("java.lang.RuntimeException", "error/error");
-
-	        exceptionResolver.setExceptionMappings(exceptionMappings);
-
-	        Properties statusCodes = new Properties();
-
-	        statusCodes.put("error/404", "404");
-	        statusCodes.put("error/error", "500");
-
-	        exceptionResolver.setStatusCodes(statusCodes);
-
-	        return exceptionResolver;
-	    }
-
-	}
+}

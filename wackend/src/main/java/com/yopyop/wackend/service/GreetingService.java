@@ -5,7 +5,7 @@ import com.yopyop.wackend.model.Greeting;
 
 import java.util.List;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+//import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 /**
  * Specifies the service methods for contracts.
@@ -26,7 +26,7 @@ public interface GreetingService {
      * @return  The deleted contact.
      * @throws NotFoundException    if a contact is not found with the given id.
      */
-    public Greeting deleteById(Long id) throws NotFoundException;
+    public Greeting deleteById(Integer id) throws NotFoundException;
 
     /**
      * Finds all contacts.
@@ -40,7 +40,7 @@ public interface GreetingService {
      * @return  The found contact.
      * @throws NotFoundException    if no contact is found with the given id.
      */
-    public Greeting findById(Long id) throws NotFoundException;
+    public Greeting findById(Integer id) throws NotFoundException;
 
     /**
      * Updates the information of a contact.

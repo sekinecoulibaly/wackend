@@ -12,6 +12,6 @@ public interface GreetingRepository extends JpaRepository<Greeting, Integer> {
     /**
      * Find persons by last name.
      */
-    public List<Greeting> findByLastName(String lastName);
+    public List<Greeting> findById(Integer id);
 
 }

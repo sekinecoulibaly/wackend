@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
  */
 public class GreetingDTO {
 
-    private Long id;
+    private Integer id;
 
     @Length(max = Greeting.MAX_LENGTH_CONTENT)
     private String content;
@@ -19,11 +19,11 @@ public class GreetingDTO {
 
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
