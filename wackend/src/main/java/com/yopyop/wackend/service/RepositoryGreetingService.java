@@ -61,7 +61,7 @@ public class RepositoryGreetingService implements GreetingService {
 
         if (found == null) {
             LOGGER.debug("No greeting found with id: {}", id);
-            throw new NotFoundException("No greeting found with id: " + id);
+            throw new NotFoundException("findById() No greeting found with id: " + id);
         }
 
         LOGGER.debug("Found contact: {}", found);

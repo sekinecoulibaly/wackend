@@ -5,8 +5,6 @@ import com.yopyop.wackend.model.Greeting;
 
 import java.util.List;
 
-//import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-
 /**
  * Specifies the service methods for contracts.
  * @author Petri Kainulainen
