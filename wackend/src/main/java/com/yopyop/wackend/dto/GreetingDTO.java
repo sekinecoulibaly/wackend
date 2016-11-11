@@ -4,10 +4,6 @@ import com.yopyop.wackend.model.Greeting;
 
 import org.hibernate.validator.constraints.Length;
 
-/**
- * A form object for contracts.
- * @author Petri Kainulainen
- */
 public class GreetingDTO {
 
     private Integer id;

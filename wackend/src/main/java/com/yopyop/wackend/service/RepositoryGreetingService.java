@@ -13,10 +13,6 @@ import javax.annotation.Resource;
 import java.util.List;
 import com.yopyop.wackend.service.NotFoundException;
 
-/**
- * This implementation communicates with the data storage by using Spring Data JPA.
- * @author Petri Kainulainen
- */
 @Service
 public class RepositoryGreetingService implements GreetingService {
 

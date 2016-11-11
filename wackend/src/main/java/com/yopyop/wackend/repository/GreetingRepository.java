@@ -9,9 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GreetingRepository extends JpaRepository<Greeting, Integer> {
 
-    /**
-     * Find persons by last name.
-     */
     public List<Greeting> findById(Integer id);
-
 }

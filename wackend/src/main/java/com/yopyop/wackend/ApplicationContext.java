@@ -3,6 +3,8 @@ package com.yopyop.wackend;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -34,6 +36,8 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
     private static final String PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY = "hibernate.ejb.naming_strategy";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
+    
+    Logger logger = LoggerFactory.getLogger("ApplicationContext");
     
 	 @Resource
 	 private Environment environment;
@@ -72,9 +76,7 @@ public class ApplicationContext extends WebMvcConfigurerAdapter {
 	    @Bean
 	    public JpaTransactionManager transactionManager() {
 	        JpaTransactionManager transactionManager = new JpaTransactionManager();
-
 	        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
 	        return transactionManager;
 	    }
 
