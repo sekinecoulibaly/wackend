@@ -39,14 +39,6 @@ public class GreetingController {
 	@Autowired
 	AllowedPairingsService allowedPairingsService;
 	
-    @RequestMapping(value="/subscription", method = RequestMethod.GET) 
-    @Transactional
-    public ResponseEntity<Subscription> test() throws Exception {
-    	logger.warn("/subscription");
-    	Subscription subscription = subscriptionService.findById(1);
-    	return new ResponseEntity<Subscription>(subscription,HttpStatus.OK);
-    }
-    
     @RequestMapping(value="/allowed", method = RequestMethod.GET) 
     public ResponseEntity<List<AllowedPairings>> toto() throws Exception {
     	logger.warn("/allowed");
@@ -55,22 +47,6 @@ public class GreetingController {
     	//Erl erl = erlService.findByCid("C000000001");
 
     	return new ResponseEntity<List<AllowedPairings>>(allowedPairings,HttpStatus.OK);
-    }
-    
-    @RequestMapping(value="/subscriptions", method = RequestMethod.GET) 
-    @Transactional
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<SubscriptionDTO>> subs() throws Exception {
-    	logger.warn("test");
-    	
-    	List<SubscriptionDTO> subscriptionsDto = subscriptionService.findAll();
-    	/* This will trigger the lazy loading before the transaction
-    	 * is closed
-    	 
-    	for ( int i =0;i<subscriptions.size();i++) {
-    		logger.warn("val="+subscriptions.get(i).getErls().toString());
-    	}*/
-    	return new ResponseEntity<List<SubscriptionDTO>>(subscriptionsDto,HttpStatus.OK);
     }
     
     @RequestMapping(value="/greeting", method = RequestMethod.GET) 

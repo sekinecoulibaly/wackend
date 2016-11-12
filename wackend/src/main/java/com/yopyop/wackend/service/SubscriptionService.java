@@ -9,13 +9,13 @@ import javax.transaction.Transactional;
 
 public interface SubscriptionService {
 
-    public Subscription add(SubscriptionDTO added);
+    public SubscriptionDTO add(SubscriptionDTO added);
 
-    public Subscription deleteById(Integer id) throws NotFoundException;
+    public SubscriptionDTO deleteById(Integer id) throws NotFoundException;
     
     public List<SubscriptionDTO> findAll();
 
-    public Subscription findById(Integer id) throws NotFoundException;
+    public SubscriptionDTO findById(Integer id) throws NotFoundException;
 
-    public Subscription update(SubscriptionDTO updated) throws NotFoundException;
+    public SubscriptionDTO update(SubscriptionDTO updated) throws NotFoundException;
 }

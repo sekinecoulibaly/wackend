@@ -27,25 +27,24 @@ public class RepositorySubscriptionService implements SubscriptionService {
     private SubscriptionRepository repository;
 
     @Transactional
-    public Subscription add(SubscriptionDTO added) {
+    public SubscriptionDTO add(SubscriptionDTO added) {
         LOGGER.debug("Adding new Subscription with information: {}", added);
 
         //Creates an instance of a Contact by using the builder pattern
-        Subscription subscription = new Subscription ( added.getId(), added.getPrm());
-
-        return repository.save(subscription);
+        Subscription subscription = repository.save(new Subscription ( added.getId(), added.getPrm()));
+        return DTOMapper.toSubscriptionDTO(subscription);
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public Subscription deleteById(Integer id) throws NotFoundException {
+    public SubscriptionDTO deleteById(Integer id) throws NotFoundException {
         LOGGER.debug("Deleting Subscription by id: {}", id);
 
-        Subscription deleted = findById(id);
+        Subscription deleted = repository.findOne(id);
         repository.delete(deleted);
 
         LOGGER.debug("Deleted Subscription: {}", deleted);
 
-        return deleted;
+        return DTOMapper.toSubscriptionDTO(deleted);
     }
 
     @Transactional(readOnly = true)
@@ -55,17 +54,14 @@ public class RepositorySubscriptionService implements SubscriptionService {
         
         List<SubscriptionDTO> subscriptionsDTO = 
         		subscriptions.stream()
-                .map(subscription -> {
-                    SubscriptionDTO subscriptionDTO = DTOMapper.toSubscriptionDTO(subscription);
-                    return subscriptionDTO;
-                })
+                .map(subscription -> DTOMapper.toSubscriptionDTO(subscription))
                 .collect(Collectors.toList());
 
         return subscriptionsDTO;
     }
 
     @Transactional(readOnly = true)
-    public Subscription findById(Integer id) throws NotFoundException {
+    public SubscriptionDTO findById(Integer id) throws NotFoundException {
         LOGGER.debug("Finding Subscription by id: {}", id);
 
         Subscription found = repository.findOne(id);
@@ -77,14 +73,14 @@ public class RepositorySubscriptionService implements SubscriptionService {
 
         LOGGER.debug("Found contact: {}", found);
 
-        return found;
+        return DTOMapper.toSubscriptionDTO(found);
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public Subscription update(SubscriptionDTO updated) throws NotFoundException {
+    public SubscriptionDTO update(SubscriptionDTO updated) throws NotFoundException {
         LOGGER.debug("Updating Subscription with information: {}", updated);
 
-        Subscription found = findById(updated.getId());
+        SubscriptionDTO found = findById(updated.getId());
 
         //Update the contact information
        // TODO found.update(updated.getId(), updated.getContent());
