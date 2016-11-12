@@ -42,8 +42,14 @@ public class SubscriptionController {
     
     @RequestMapping(value="/subscription", method = RequestMethod.GET) 
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<SubscriptionDTO>> getAll() throws Exception {
-    	return new ResponseEntity<List<SubscriptionDTO>>(subscriptionService.findAll(),HttpStatus.OK);
+    public List<SubscriptionDTO> getAll() throws Exception {
+    	return subscriptionService.findAll();
+    }
+    
+    @RequestMapping(value="/subscription", method = RequestMethod.POST) 
+    @ResponseStatus(HttpStatus.OK)
+    public SubscriptionDTO add(SubscriptionDTO subscription) throws Exception {
+    	return subscriptionService.add(subscription);
     }
     
     @ExceptionHandler(GreetingException.class)
