@@ -1,5 +1,6 @@
 package com.yopyop.wackend.service;
 
+import com.yopyop.wackend.dto.DTOMapper;
 import com.yopyop.wackend.dto.SubscriptionDTO;
 import com.yopyop.wackend.model.Subscription;
 import com.yopyop.wackend.repository.SubscriptionRepository;
@@ -10,7 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.yopyop.wackend.service.NotFoundException;
 
 @Service
@@ -44,9 +49,19 @@ public class RepositorySubscriptionService implements SubscriptionService {
     }
 
     @Transactional(readOnly = true)
-    public List<Subscription> findAll() {
+    public List<SubscriptionDTO> findAll() {
+    	List<Subscription> subscriptions = repository.findAll();
         LOGGER.debug("Finding all Subscription");
-        return repository.findAll();
+        
+        List<SubscriptionDTO> subscriptionsDTO = 
+        		subscriptions.stream()
+                .map(subscription -> {
+                    SubscriptionDTO subscriptionDTO = DTOMapper.toSubscriptionDTO(subscription);
+                    return subscriptionDTO;
+                })
+                .collect(Collectors.toList());
+
+        return subscriptionsDTO;
     }
 
     @Transactional(readOnly = true)

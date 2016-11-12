@@ -13,7 +13,7 @@ public interface SubscriptionService {
 
     public Subscription deleteById(Integer id) throws NotFoundException;
     
-    public List<Subscription> findAll();
+    public List<SubscriptionDTO> findAll();
 
     public Subscription findById(Integer id) throws NotFoundException;
 

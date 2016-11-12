@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.yopyop.wackend.model.*;
 import com.yopyop.wackend.service.*;
 import com.yopyop.wackend.controller.GreetingException;
+import com.yopyop.wackend.dto.SubscriptionDTO;
 
 @RestController
 public class GreetingController {
@@ -59,17 +60,17 @@ public class GreetingController {
     @RequestMapping(value="/subscriptions", method = RequestMethod.GET) 
     @Transactional
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Subscription>> subs() throws Exception {
+    public ResponseEntity<List<SubscriptionDTO>> subs() throws Exception {
     	logger.warn("test");
     	
-    	List<Subscription> subscriptions = subscriptionService.findAll();
+    	List<SubscriptionDTO> subscriptionsDto = subscriptionService.findAll();
     	/* This will trigger the lazy loading before the transaction
     	 * is closed
-    	 */
+    	 
     	for ( int i =0;i<subscriptions.size();i++) {
     		logger.warn("val="+subscriptions.get(i).getErls().toString());
-    	}
-    	return new ResponseEntity<List<Subscription>>(subscriptions,HttpStatus.OK);
+    	}*/
+    	return new ResponseEntity<List<SubscriptionDTO>>(subscriptionsDto,HttpStatus.OK);
     }
     
     @RequestMapping(value="/greeting", method = RequestMethod.GET) 
