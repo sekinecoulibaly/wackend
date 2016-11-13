@@ -2,12 +2,9 @@ package com.yopyop.wackend.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yopyop.wackend.dto.*;
 import com.yopyop.wackend.model.*;
 
 
@@ -34,4 +31,11 @@ public class DTOMapper {
         return subscriptionDto;
     }
 
+    public static AllowedPairingsDTO toAllowedPairingsDTO(AllowedPairings allowedPairings) {
+    	AllowedPairingsDTO allowedPairingsDto = new AllowedPairingsDTO();
+    	allowedPairingsDto.setErlCid(allowedPairings.getErlCid());
+    	allowedPairingsDto.setSubscriptionId(allowedPairings.getSubscriptionId());
+
+        return allowedPairingsDto;
+    }
 }

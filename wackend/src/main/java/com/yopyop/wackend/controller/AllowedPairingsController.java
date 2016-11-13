@@ -9,54 +9,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yopyop.wackend.model.*;
 import com.yopyop.wackend.service.*;
 import com.yopyop.wackend.controller.GreetingException;
-import com.yopyop.wackend.dto.SubscriptionDTO;
+import com.yopyop.wackend.dto.AllowedPairingsDTO;
 
 @RestController
-public class GreetingController {
+public class AllowedPairingsController {
 	
-    Logger logger = LoggerFactory.getLogger("GreetingController");
+    Logger logger = LoggerFactory.getLogger("AllowedPairingsController");
     
-	@Autowired
-	GreetingService greetingService;
-    
-	@Autowired
-	ErlService erlService;
-	
-	@Autowired
-	SubscriptionService subscriptionService;
-	
 	@Autowired
 	AllowedPairingsService allowedPairingsService;
-
-    @RequestMapping(value="/greeting", method = RequestMethod.GET) 
-    public Greeting greeting() throws Exception {
-    	logger.warn("id is empty");
-    	throw new GreetingException("Invalid query");
+	
+    @RequestMapping(value="/allowed_pairings/{erl_cid}", method = RequestMethod.GET) 
+    public ResponseEntity<AllowedPairingsDTO> getByCid(@PathVariable String cid) throws Exception {
+    	return new ResponseEntity<AllowedPairingsDTO>(allowedPairingsService.findByErlCid(cid),HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/greeting/{id}/{content}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Greeting> setById(@PathVariable Integer id, @PathVariable String content) throws Exception {
-    	if (content.length()<5) {
-    		throw new GreetingException("Content too short");
-		}
-
-		return new ResponseEntity<Greeting>(greetingService.findById(id),HttpStatus.OK);
-	}
-
-    @RequestMapping(value = "/greeting/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Greeting getById(@PathVariable Integer id) throws Exception {
-    	return greetingService.findById(id);
+    @RequestMapping(value="/allowed_pairings", method = RequestMethod.GET) 
+    @ResponseStatus(HttpStatus.OK)
+    public List<AllowedPairingsDTO> getAll() throws Exception {
+    	return allowedPairingsService.findAll();
+    }
+    
+    @RequestMapping(value="/allowed_pairings", method = RequestMethod.POST) 
+    @ResponseStatus(HttpStatus.OK)
+    public AllowedPairingsDTO add(@RequestBody AllowedPairingsDTO allowed_pairing) throws Exception {
+    	return allowedPairingsService.add(allowed_pairing);
     }
     
     @ExceptionHandler(GreetingException.class)

@@ -1,12 +1,10 @@
 package com.yopyop.wackend.service;
 
 import com.yopyop.wackend.dto.AllowedPairingsDTO;
-import com.yopyop.wackend.dto.SubscriptionDTO;
+import com.yopyop.wackend.dto.DTOMapper;
 import com.yopyop.wackend.model.AllowedPairings;
-import com.yopyop.wackend.model.Erl;
-import com.yopyop.wackend.model.Subscription;
 import com.yopyop.wackend.repository.AllowedPairingsRepository;
-import com.yopyop.wackend.repository.SubscriptionRepository;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.yopyop.wackend.service.NotFoundException;
 
 @Service
@@ -26,35 +26,49 @@ public class RepositoryAllowedPairingsService implements AllowedPairingsService 
     private AllowedPairingsRepository repository;
 
     @Transactional
-    public AllowedPairings add(AllowedPairingsDTO added) {
+    public AllowedPairingsDTO add(AllowedPairingsDTO added) {
         LOGGER.debug("Adding new AllowedPairings with information: {}", added);
 
         //Creates an instance of a Contact by using the builder pattern
-        AllowedPairings allowedPairings = new AllowedPairings ( added.getErlCid(), added.getSubscriptionId());
+        AllowedPairings a = new AllowedPairings ( added.getErlCid(), added.getSubscriptionId());
 
-        return repository.save(allowedPairings);
+        AllowedPairings allowedPairings = repository.save(a);
+        if ( allowedPairings==null) {
+        	return null;
+        }
+
+        AllowedPairingsDTO sdto = DTOMapper.toAllowedPairingsDTO(allowedPairings);
+
+        return sdto;
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public AllowedPairings deleteByErlCid(String erl_cid) throws NotFoundException {
+    public AllowedPairingsDTO deleteByErlCid(String erl_cid) throws NotFoundException {
         LOGGER.debug("Deleting AllowedPairings by erl: {}", erl_cid);
 
-        AllowedPairings deleted = findByErlCid(erl_cid);
-        repository.delete(deleted);
 
-        LOGGER.debug("Deleted AllowedPairings: {}", deleted);
+        repository.deleteByErlCid(erl_cid);
 
-        return deleted;
+        LOGGER.debug("Deleted AllowedPairings: {}", erl_cid);
+
+        return null;
     }
 
     @Transactional(readOnly = true)
-    public List<AllowedPairings> findAll() {
+    public List<AllowedPairingsDTO> findAll() {
+    	List<AllowedPairings> allowedPairings = repository.findAll();
         LOGGER.debug("Finding all AllowedPairings");
-        return repository.findAll();
+        
+        List<AllowedPairingsDTO> allowedPairingsDTO = 
+        		allowedPairings.stream()
+                .map(allowedPairing -> DTOMapper.toAllowedPairingsDTO(allowedPairing))
+                .collect(Collectors.toList());
+
+        return allowedPairingsDTO;
     }
 
     @Transactional(readOnly = true)
-    public AllowedPairings findByErlCid(String erl_cid) throws NotFoundException {
+    public AllowedPairingsDTO findByErlCid(String erl_cid) throws NotFoundException {
         LOGGER.debug("Finding AllowedPairings by erl: {}", erl_cid);
 
         AllowedPairings found = repository.findOne(erl_cid);
@@ -66,18 +80,17 @@ public class RepositoryAllowedPairingsService implements AllowedPairingsService 
 
         LOGGER.debug("Found AllowedPairings: {}", found);
 
-        return found;
+        return DTOMapper.toAllowedPairingsDTO(found);
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public AllowedPairings update(AllowedPairingsDTO updated) throws NotFoundException {
+    public AllowedPairingsDTO update(AllowedPairingsDTO updated) throws NotFoundException {
         LOGGER.debug("Updating Subscription with information: {}", updated);
 
-        AllowedPairings found = findByErlCid(updated.getErlCid());
+        AllowedPairingsDTO found = findByErlCid(updated.getErlCid());
 
         //Update the contact information
        // TODO found.update(updated.getId(), updated.getContent());
-
 
         return found;
     }

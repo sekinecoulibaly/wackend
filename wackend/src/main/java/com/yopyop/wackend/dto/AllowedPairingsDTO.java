@@ -1,8 +1,5 @@
 package com.yopyop.wackend.dto;
 
-import com.yopyop.wackend.model.Erl;
-import com.yopyop.wackend.model.Subscription;
-
 public class AllowedPairingsDTO {
 
     private String erl_cid;
@@ -29,7 +26,7 @@ public class AllowedPairingsDTO {
         return subscription_id;
     }
     
-    public void setsubscription(Integer subscription_id) {
+    public void setSubscriptionId(Integer subscription_id) {
     	this.subscription_id = subscription_id;
     }
 }

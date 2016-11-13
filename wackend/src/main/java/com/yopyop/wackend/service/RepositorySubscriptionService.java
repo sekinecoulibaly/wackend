@@ -34,14 +34,11 @@ public class RepositorySubscriptionService implements SubscriptionService {
         LOGGER.debug("Adding new Subscription with id: {}", added.getId());
         Subscription subscription = repository.save(s);
         if ( subscription==null) {
-        	LOGGER.debug("Subscription IS NULL");
         	return null;
         }
-        LOGGER.debug("Subscription NOT NULL");
-        LOGGER.debug("Subscription to dto");
+
         SubscriptionDTO sdto = DTOMapper.toSubscriptionDTO(subscription);
-        LOGGER.debug("logging dto");
-        LOGGER.debug("Subscription =" + sdto.toString());
+
         return null;
     }
 
