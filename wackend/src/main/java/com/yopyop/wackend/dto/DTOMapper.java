@@ -21,6 +21,7 @@ public class DTOMapper {
         subscriptionDto.setPrm(subscription.getPrm());
 
         List<ErlDTO> erlsDto = new ArrayList<>();
+
         for (Erl erl: subscription.getErls()) {
             ErlDTO erlDto = new ErlDTO();
             erlDto.setId(erl.getId());
@@ -29,6 +30,7 @@ public class DTOMapper {
             erlsDto.add(erlDto);
         }
         subscriptionDto.setErls(erlsDto);
+
         return subscriptionDto;
     }
 

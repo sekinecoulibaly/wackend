@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,11 +27,22 @@ public class RepositorySubscriptionService implements SubscriptionService {
 
     @Transactional
     public SubscriptionDTO add(SubscriptionDTO added) {
-        LOGGER.debug("Adding new Subscription with information: {}", added);
+        LOGGER.debug("Adding new Subscription with PRM: {}", added.getPrm());
 
         //Creates an instance of a Contact by using the builder pattern
-        Subscription subscription = repository.save(new Subscription ( added.getId(), added.getPrm()));
-        return DTOMapper.toSubscriptionDTO(subscription);
+        Subscription s = new Subscription(added.getPrm());
+        LOGGER.debug("Adding new Subscription with id: {}", added.getId());
+        Subscription subscription = repository.save(s);
+        if ( subscription==null) {
+        	LOGGER.debug("Subscription IS NULL");
+        	return null;
+        }
+        LOGGER.debug("Subscription NOT NULL");
+        LOGGER.debug("Subscription to dto");
+        SubscriptionDTO sdto = DTOMapper.toSubscriptionDTO(subscription);
+        LOGGER.debug("logging dto");
+        LOGGER.debug("Subscription =" + sdto.toString());
+        return null;
     }
 
     @Transactional(rollbackFor = NotFoundException.class)

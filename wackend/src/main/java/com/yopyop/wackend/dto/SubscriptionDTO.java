@@ -37,9 +37,5 @@ public class SubscriptionDTO {
     public void setErls(List<ErlDTO> erls) {
     	this.erls = erls;
     }
-    
-    @Override
-    public String toString() {
-        return id.toString();
-    }
+
 }

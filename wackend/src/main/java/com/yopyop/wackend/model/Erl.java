@@ -2,27 +2,30 @@ package com.yopyop.wackend.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.transaction.Transactional;
 
 @Entity
 @Table(name = "erl")
 // Serializable pour que le ID du JPAREPOSITORY se plaigne pas dans AllowedPairingsRepository
 public class Erl implements Serializable {
 
+	private static final long serialVersionUID = 4021196907894575251L;
 
 	@GeneratedValue(strategy=GenerationType.AUTO, generator = "erl_seq_gen")
 	@SequenceGenerator(name = "erl_seq_gen", sequenceName = "erl_id_seq")
     private Integer id;
-	
+
 	@Id
+	@Column(unique=true)
     private String cid;
 
+	@Column(unique=true)
     private String sn;
     
     public Erl() {	

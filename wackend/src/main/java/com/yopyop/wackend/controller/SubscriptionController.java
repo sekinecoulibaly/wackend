@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -48,8 +49,14 @@ public class SubscriptionController {
     
     @RequestMapping(value="/subscription", method = RequestMethod.POST) 
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionDTO add(SubscriptionDTO subscription) throws Exception {
+    public SubscriptionDTO add(@RequestBody SubscriptionDTO subscription) throws Exception {
     	return subscriptionService.add(subscription);
+    }
+    
+    @RequestMapping(value="/subscription/{id}", method = RequestMethod.DELETE) 
+    public ResponseEntity<SubscriptionDTO> deleteById(@PathVariable Integer id) throws Exception {
+    	subscriptionService.deleteById(id);
+    	return new ResponseEntity<SubscriptionDTO>((SubscriptionDTO)null,HttpStatus.OK);
     }
     
     @ExceptionHandler(GreetingException.class)

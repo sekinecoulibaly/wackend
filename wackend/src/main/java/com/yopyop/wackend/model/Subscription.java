@@ -1,5 +1,6 @@
 package com.yopyop.wackend.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,24 +12,22 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "subscription")
 public class Subscription {
 
-    public static final int MAX_LENGTH_CONTENT = 50;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO, generator = "subscription_seq_gen")
 	@SequenceGenerator(name = "subscription_seq_gen", sequenceName = "subscription_id_seq")
-	
-	//@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 	
+	@Column(unique=true)
     private String prm;
 
-    @ManyToMany (fetch=FetchType.LAZY )
+    @ManyToMany (fetch=FetchType.LAZY)
     @JoinTable(
       name = "allowed_pairings", 
       joinColumns = @JoinColumn(name = "subscription_id", referencedColumnName="id"), 
@@ -36,14 +35,21 @@ public class Subscription {
     )
     private List<Erl>	erls;
     
-    public Subscription() {	
+    public Subscription() {
+        this.erls = new ArrayList<>();
     }
     
     public Subscription(Integer id, String prm) {
         this.id = id;
         this.prm = prm;
+        this.erls = new ArrayList<>();
     }
 
+    public Subscription(String prm) {
+        this.prm = prm;
+        this.erls = new ArrayList<>();
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -67,5 +73,4 @@ public class Subscription {
     public void setErls(List<Erl> erls) {
     	this.erls = erls;
     }
-    
 }
