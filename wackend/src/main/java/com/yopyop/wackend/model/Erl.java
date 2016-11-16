@@ -17,11 +17,11 @@ public class Erl implements Serializable {
 
 	private static final long serialVersionUID = 4021196907894575251L;
 
-	@GeneratedValue(strategy=GenerationType.AUTO, generator = "erl_seq_gen")
-	@SequenceGenerator(name = "erl_seq_gen", sequenceName = "erl_id_seq")
+	@Id
+    @SequenceGenerator(name="erl_seq_gen", sequenceName="erl_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="erl_seq_gen")
     private Integer id;
 
-	@Id
 	@Column(unique=true)
     private String cid;
 

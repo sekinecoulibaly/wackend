@@ -1,7 +1,10 @@
 package com.yopyop.wackend.service;
 
+import com.yopyop.wackend.dto.DTOMapper;
 import com.yopyop.wackend.dto.ErlDTO;
+import com.yopyop.wackend.dto.SubscriptionDTO;
 import com.yopyop.wackend.model.Erl;
+import com.yopyop.wackend.model.Subscription;
 import com.yopyop.wackend.repository.ErlRepository;
 
 import org.slf4j.Logger;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.yopyop.wackend.service.NotFoundException;
 
 @Service
@@ -22,36 +27,48 @@ public class RepositoryErlService implements ErlService {
     private ErlRepository repository;
 
     @Transactional
-    public Erl add(ErlDTO added) {
+    public ErlDTO add(ErlDTO added) {
         LOGGER.debug("Adding new ERL with information: {}", added);
 
         //Creates an instance of a Contact by using the builder pattern
-        Erl erl = new Erl ( added.getCid(), added.getSn());
+        Erl e = new Erl ( added.getCid(), added.getSn());
 
-        return repository.save(erl);
+        Erl erl = repository.save(e);
+        if ( erl==null) {
+        	return null;
+        }
+
+        return DTOMapper.toErlDTO(erl);
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public Erl deleteById(Integer id) throws NotFoundException {
-        LOGGER.debug("Deleting ERL by id: {} NOT IMPLEMENTED", id);
-/*
-        Erl deleted = findByCid(cid);
+    public ErlDTO deleteByCid(String cid) throws NotFoundException {
+        LOGGER.debug("Deleting ERL by id: {}", cid);
+
+        Erl deleted = repository.findByCid(cid);
         repository.delete(deleted);
 
         LOGGER.debug("Deleted ERL: {}", deleted);
 
-        return deleted;*/
-        return null;
+        return DTOMapper.toErlDTO(deleted);
     }
 
     @Transactional(readOnly = true)
-    public List<Erl> findAll() {
+    public List<ErlDTO> findAll() {
         LOGGER.debug("Finding all contacts");
-        return repository.findAll();
+        List<Erl> erls = repository.findAll();
+        
+        
+        List<ErlDTO> erlsDTO = 
+        		erls.stream()
+                .map(erl -> DTOMapper.toErlDTO(erl))
+                .collect(Collectors.toList());
+
+        return erlsDTO;
     }
 
     @Transactional(readOnly = true)
-    public Erl findByCid(String cid) throws NotFoundException {
+    public ErlDTO findByCid(String cid) throws NotFoundException {
         LOGGER.debug("Finding ERL by id: {}", cid);
 
         Erl found = repository.findOne(cid);
@@ -63,14 +80,14 @@ public class RepositoryErlService implements ErlService {
 
         LOGGER.debug("Found Erl: {}", found);
 
-        return found;
+        return DTOMapper.toErlDTO(found);
     }
 
     @Transactional(rollbackFor = NotFoundException.class)
-    public Erl update(ErlDTO updated) throws NotFoundException {
+    public ErlDTO update(ErlDTO updated) throws NotFoundException {
         LOGGER.debug("Updating greeting with information: {}", updated);
 
-        Erl found = findByCid(updated.getCid());
+        ErlDTO found = findByCid(updated.getCid());
 
         //Update the contact information
        // TODO found.update(updated.getId(), updated.getContent());

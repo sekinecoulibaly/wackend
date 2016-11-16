@@ -36,6 +36,6 @@ public class ErlDTO {
     
     @Override
     public String toString() {
-        return id.toString();
+        return cid.toString();
     }
 }

@@ -38,4 +38,33 @@ public class DTOMapper {
 
         return allowedPairingsDto;
     }
+    
+    public static ErlDTO toErlDTO(Erl erl) {
+    	ErlDTO erlDto = new ErlDTO();
+    	erlDto.setCid(erl.getCid());
+    	erlDto.setId(erl.getId());
+    	erlDto.setSn(erl.getSn());
+        return erlDto;
+    }
+    
+    public static TagDTO toTagDTO(Tag tag) {
+    	TagDTO tagDto = new TagDTO();
+    	tagDto.setId(tag.getId());
+    	tagDto.setName(tag.getName());
+    	tagDto.setValidAfter(tag.getValidAfter());
+    	
+        List<PartDTO> partsDto = new ArrayList<>();
+
+        for (Part part: tag.getParts()) {
+            PartDTO partDto = new PartDTO();
+            partDto.setId(part.getId());
+            partDto.setName(part.getName());
+            partDto.setUrl(part.getUrl());
+            partsDto.add(partDto);
+        }
+        tagDto.setParts(partsDto);
+        
+        return tagDto;
+    }
+    
 }
